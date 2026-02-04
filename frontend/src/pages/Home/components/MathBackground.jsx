@@ -20,30 +20,31 @@ const MathBackground = () => {
         window.addEventListener('resize', resize)
         resize()
 
-        // Grid parameters
-        const gridSize = 50
-        let offset = 0
+        let time = 0
 
         const render = () => {
             ctx.clearRect(0, 0, width, height)
 
-            // Draw Grid
-            ctx.lineWidth = 1
-            ctx.strokeStyle = 'rgba(14, 165, 233, 0.2)' // Light blue for white background
-            offset = (offset + 0.5) % gridSize
+            // Modern, subtle wave animation
+            ctx.lineWidth = 1.5
+            time += 0.005
 
-            ctx.beginPath()
-            // Draw Vertical Lines
-            for (let x = offset; x < width; x += gridSize) {
-                ctx.moveTo(x, 0)
-                ctx.lineTo(x, height)
+            // Draw multiple waves
+            for (let i = 0; i < 5; i++) {
+                ctx.beginPath()
+                ctx.strokeStyle = `rgba(14, 165, 233, ${0.1 + (i * 0.05)})` // Reduced opacity for subtlety
+
+                for (let x = 0; x < width; x++) {
+                    // Complex sine wave formula for organic movement
+                    const y = height / 2 +
+                        Math.sin(x * 0.003 + time + i) * 50 +
+                        Math.sin(x * 0.007 + time * 0.5) * 30 * (i + 1) * 0.2
+
+                    if (x === 0) ctx.moveTo(x, y)
+                    else ctx.lineTo(x, y)
+                }
+                ctx.stroke()
             }
-            // Draw Horizontal Lines
-            for (let y = offset; y < height; y += gridSize) {
-                ctx.moveTo(0, y)
-                ctx.lineTo(width, y)
-            }
-            ctx.stroke()
         }
 
         gsap.ticker.add(render)
@@ -57,8 +58,7 @@ const MathBackground = () => {
     return (
         <canvas
             ref={canvasRef}
-            className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none bg-white opacity-60"
-            
+            className="absolute top-0 left-0 w-full h-full -z-10 pointer-events-none bg-[var(--bg-surface)] opacity-50"
         />
     )
 }
