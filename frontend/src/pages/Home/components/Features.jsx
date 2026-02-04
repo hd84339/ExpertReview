@@ -1,6 +1,7 @@
 import { useRef, useEffect } from 'react'
 import gsap from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { QrCode, Sparkles, ShieldCheck } from 'lucide-react'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -8,17 +9,20 @@ const featuresData = [
     {
         title: "One QR Code for Every Review Platform",
         desc: "Replace multiple review links with one smart QR code. Customers scan once and choose Google, Facebook, Yelp and more - all from a single place.",
-        id: "qr"
+        id: "qr",
+        icon: QrCode
     },
     {
         title: "Our AI Turns Feedback Into Reviews",
         desc: "Customers answer a few quick questions. Our AI helps turn their feedback into clear, high-quality reviews written for each platform’s style.",
-        id: "ai"
+        id: "ai",
+        icon: Sparkles
     },
     {
         title: "Protect Your Rating With Ratememore",
         desc: "After feedback, every customer decides whether to share publicly or send private feedback to your team. Same choice for everyone, regardless of rating.",
-        id: "protect"
+        id: "protect",
+        icon: ShieldCheck
     }
 ]
 
@@ -68,11 +72,16 @@ const Features = () => {
                     <div
                         key={index}
                         ref={addToRefs}
-                        className="group p-8 rounded-2xl border border-[var(--nav-border)] bg-[var(--bg-surface)]/30 hover:bg-[var(--bg-surface)]/60 transition-all duration-300 hover:shadow-lg backdrop-blur-sm"
+                        className="group relative p-8 rounded-2xl border border-[var(--nav-border)] bg-[var(--bg-surface)]/30 transition-all duration-300 hover:shadow-lg backdrop-blur-sm overflow-hidden"
                     >
-                        {/* Minimalistic Icon Placeholder / Number */}
-                        <div className="mb-6 opacity-20 text-6xl font-custom font-bold text-[var(--text-primary)] group-hover:opacity-40 transition-opacity duration-300">
-                            0{index + 1}
+                        {/* Animated Bottom Border */}
+                        <div className="absolute bottom-0 left-0 w-0 h-[3px] bg-accent transition-all duration-300 group-hover:w-full"></div>
+                        {/* Animated Left Border */}
+                        <div className="absolute bottom-0 left-0 w-[3px] h-0 bg-accent transition-all duration-300 group-hover:h-full"></div>
+
+                        {/* Icon */}
+                        <div className="mb-6 w-14 h-14 flex items-center justify-center rounded-xl bg-accent/10 text-accent group-hover:bg-accent group-hover:text-[var(--bg-primary)] transition-all duration-300">
+                            <feature.icon strokeWidth={1.5} size={32} />
                         </div>
 
                         <h3 className="text-xl md:text-2xl font-bold font-custom text-[var(--text-primary)] mb-4 leading-snug">
